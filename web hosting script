@@ -51,3 +51,4 @@ output "website_url" {
 │   15:       host_name = "www.google.com"
 │   16:       protocol = "https"
 │   17:     }
+ Inappropriate value for attribute "redirect_all_requests_to": string required.
