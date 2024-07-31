@@ -41,3 +41,13 @@ output "bucket_name" {
 output "website_url" {
   value = aws_s3_bucket.website_bucket.website_endpoint
 }
+
+[ec2-user@ip-172-31-13-118 s3_bucket_task]$ terraform validate
+╷
+│ Error: Incorrect attribute value type
+│
+│   on main.tf line 14, in resource "aws_s3_bucket" "website_bucket":
+│   14:     redirect_all_requests_to = {
+│   15:       host_name = "www.google.com"
+│   16:       protocol = "https"
+│   17:     }
