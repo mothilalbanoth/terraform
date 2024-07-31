@@ -1,0 +1,43 @@
+# main.tf
+
+provider "aws" {
+  region = "us-west-2" # Change to your preferred region
+}
+
+resource "aws_s3_bucket" "website_bucket" {
+  bucket = "your-unique-bucket-name" # Change to your unique bucket name
+
+  website {
+    index_document = "index.html"
+
+    # Redirect all requests to another domain
+    redirect_all_requests_to = {
+      host_name = "www.example.com"
+      protocol = "https"
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "website_policy" {
+  bucket = aws_s3_bucket.website_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "${aws_s3_bucket.website_bucket.arn}/*"
+      }
+    ]
+  })
+}
+
+output "bucket_name" {
+  value = aws_s3_bucket.website_bucket.bucket
+}
+
+output "website_url" {
+  value = aws_s3_bucket.website_bucket.website_endpoint
+}
